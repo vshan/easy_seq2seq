@@ -8,7 +8,7 @@ app = Flask(__name__,static_url_path="/static")
 #
 @app.route('/message', methods=['POST'])
 def reply():
-    return jsonify( { 'text': execute.decode_line(sess, model, enc_vocab, rev_dec_vocab, request.form['msg'] ) } )
+    return jsonify( { 'text': chatengine.reply(request.form['msg'], aibot(request.form['msg'])) } )
 
 @app.route("/")
 def index(): 
@@ -27,6 +27,11 @@ import execute
 
 sess = tf.Session()
 sess, model, enc_vocab, rev_dec_vocab = execute.init_session(sess, conf='seq2seq_serve.ini')
+
+def aibot(sent):
+    return execute.decode_line(sess, model, enc_vocab, rev_dec_vocab, sent)
+
+import chatengine
 #_________________________________________________________________
 
 # start app

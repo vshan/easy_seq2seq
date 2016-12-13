@@ -1,2 +1,4 @@
 data/
+working_dir/
+old_working_dir/
 *.pyc
